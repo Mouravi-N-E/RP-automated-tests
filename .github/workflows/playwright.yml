@@ -4,11 +4,14 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+env:
+  BASE_URL: https://rp.epam.com/
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    environment: RP_PROD 
+    #environment: RP_PROD 
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
