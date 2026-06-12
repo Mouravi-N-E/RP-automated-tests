@@ -49,7 +49,7 @@ export default defineConfig({
       retries: 1,
       use: {
         ...devices['Desktop Chrome'],
-        headless: true,
+        headless: process.env.HEADLESS === 'true',
         screenshot: 'only-on-failure',
         trace: 'on-first-retry',    
       },
