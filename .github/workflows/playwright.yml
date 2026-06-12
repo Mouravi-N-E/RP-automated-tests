@@ -6,9 +6,7 @@ on:
     branches: [ main, master ]
 
 env:
-  BASE_URL: https://rp.epam.com/
-  HEADLESS: ${{ vars.HEADLESS }}
-  #BASE_URL: ${{ vars.BASE_URL }}
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
 jobs:
   test:
     timeout-minutes: 60
