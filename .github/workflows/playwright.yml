@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main, master ]
 env:
-    BASE_URL: ${{ vars.BASE_URL }}    
+    env_vars: ${{ vars.RP_PROD }}
 jobs:
   test:
     timeout-minutes: 60
