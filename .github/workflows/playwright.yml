@@ -6,13 +6,13 @@ on:
     branches: [ main, master ]
 
 env:
-  #BASE_URL: https://rp.epam.com/
-  #BASE_URL: ${{ vars.RP_PROD.BASE_URL }}
+  BASE_URL: https://rp.epam.com/
+  #BASE_URL: ${{ vars.BASE_URL }}
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    environment: RP_PROD 
+    #environment: RP_PROD 
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
