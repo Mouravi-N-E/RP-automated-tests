@@ -8,6 +8,7 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    environment: RP_PROD 
     env:
       BASE_URL: ${{ vars.BASE_URL }}
     steps:
