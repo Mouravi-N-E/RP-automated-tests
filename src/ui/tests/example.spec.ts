@@ -23,14 +23,14 @@ test('Login with credentials happy path', {
   await loginPage.loginWithCredentials('test', 'test');
 });
 
-// test('Socials links',{
-//   tag: '@Smoke'
-// }, async ({ loginValidations }) => {
-//   await loginValidations.validateSocialLinks();
-// });
+test('Socials links',{
+  tag: '@Smoke'
+}, async ({ loginValidations }) => {
+  await loginValidations.validateSocialLinks();
+});
 
-// test('Privacy policy',{
-//   tag: '@Smoke'
-// }, async ({ loginValidations }) => {
-//   await loginValidations.validatePrivacyPolicyLink();
-// });
+test('Privacy policy',{
+  tag: '@Smoke'
+}, async ({ loginValidations }) => {
+  await loginValidations.validatePrivacyPolicyLink();
+});
