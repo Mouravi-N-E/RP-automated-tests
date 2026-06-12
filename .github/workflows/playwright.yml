@@ -11,13 +11,12 @@ jobs:
     environment: RP_PROD 
     env:
       BASE_URL: ${{ vars.BASE_URL }}
+      HEADLESS: ${{ vars.HEADLESS }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Check env variables
-      run: echo "$Running on $BASE_URL  ${{ vars.BASE_URL }}  $secrets.TEST_SECRET $HEADLESS"
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
