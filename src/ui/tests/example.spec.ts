@@ -1,12 +1,5 @@
 import { test, expect } from '../fixtures/loginPageFixture';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
-
 test('get started link',  {
   tag: '@Smoke'
 }, async ({ page }) => {
@@ -19,16 +12,16 @@ test('get started link',  {
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
 
-// test('Login with credentials happy path', {
-//   tag: '@Smoke'
-// }, async ({ loginPage }) => {
+test('Login with credentials happy path', {
+  tag: '@Smoke'
+}, async ({ loginPage }) => {
 
-//   await expect(loginPage.page).toHaveTitle(/Report Portal/);
+  await expect(loginPage.page).toHaveTitle(/Report Portal/);
 
-//   await expect(loginPage.loginWithEpamButton).toBeEnabled();
+  await expect(loginPage.loginWithEpamButton).toBeEnabled();
   
-//   await loginPage.loginWithCredentials('test', 'test');
-// });
+  await loginPage.loginWithCredentials('test', 'test');
+});
 
 // test('Socials links',{
 //   tag: '@Smoke'
