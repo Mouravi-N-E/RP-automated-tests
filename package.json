@@ -2,6 +2,7 @@
   "homepage": "https://github.com/Mouravi-N-E/RP-automated-tests#readme",
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@jest/globals": "^30.4.1",
     "@playwright/test": "^1.58.1",
     "@types/node": "^25.6.0",
     "eslint": "^9.39.4",
@@ -9,11 +10,13 @@
     "husky": "^9.1.7",
     "jest": "^30.4.2",
     "jiti": "^2.6.1",
+    "ts-jest": "^29.4.11",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.0"
   },
   "scripts": {
     "test": "playwright test",
+    "test-jest": "jest",
     "test:smoke": "playwright test --project=Smoke",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
