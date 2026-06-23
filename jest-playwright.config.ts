@@ -116,7 +116,7 @@ const config: Config = {
   },
 
   // Keep Jest focused on unit tests and exclude Playwright spec files.
-  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
+  testMatch: ['**/*.spec.ts'],
 
   // Run tests from one or more projects
   // projects: undefined,

@@ -23,6 +23,8 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright smoke tests
       run: npm run test:smoke
+    - name: Run Playwright tests through Jest runner
+      run: npm run test-jest
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
