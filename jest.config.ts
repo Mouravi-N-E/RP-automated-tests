@@ -210,6 +210,7 @@ const config: Config = {
   // watchman: true,
 };
 
+// Enable running playwright tests through Jest runner with jest-playwright-preset.
 module.exports = {
   preset: 'jest-playwright-preset',
 };
