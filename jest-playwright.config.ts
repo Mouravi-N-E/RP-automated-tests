@@ -116,7 +116,7 @@ const config: Config = {
   },
 
   // Keep Jest focused on unit tests and exclude Playwright spec files.
-  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
+  testMatch: ['**/*.spec.ts'],
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -210,7 +210,6 @@ const config: Config = {
   // watchman: true,
 };
 
-// Enable running playwright tests through Jest runner with jest-playwright-preset.
 module.exports = {
   preset: 'jest-playwright-preset',
 };
