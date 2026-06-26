@@ -10,7 +10,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "types": ["node", "@playwright/test", "jest", "@jest/globals"],
+    "types": ["node", "@playwright/test"],
     "skipLibCheck": true
   },
   "include": [
