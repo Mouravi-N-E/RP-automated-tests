@@ -31,6 +31,6 @@ export class LoginPage  {
     await this.loginField.fill(username);
     await this.passwordField.fill(password);
     await this.loginButton.click(); 
-    await expect(this.page).not.toHaveURL(/members/);
+    await expect(this.page).toHaveURL(/dashboard/);
   }
 }
