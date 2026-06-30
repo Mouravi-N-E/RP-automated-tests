@@ -15,9 +15,9 @@ test.describe('Dashboards page tests', () => {
         await navBar.openProject(projectName);
     });
 
-    test.afterEach(async ({ dashboardsPage }) => {
+    test.afterAll(async ({ request }) => {
         for (const dashboardId of newDashIds) {
-            await cleanupDashboard(dashboardId, projectName.toLowerCase(), dashboardsPage.page.request);
+            await cleanupDashboard(dashboardId, projectName.toLowerCase(), request);
         }
     });
 
