@@ -1,6 +1,7 @@
 {
   "homepage": "https://github.com/Mouravi-N-E/RP-automated-tests#readme",
   "devDependencies": {
+    "@cucumber/cucumber": "^13.0.0",
     "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.6.0",
@@ -12,8 +13,9 @@
     "typescript-eslint": "^8.57.0"
   },
   "scripts": {
-    "test": "playwright test",
+    "test:playwright": "playwright test",
     "test:smoke": "playwright test --project=Smoke",
+    "test:cucumber": "cucumber-js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",

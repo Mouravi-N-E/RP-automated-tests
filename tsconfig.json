@@ -11,7 +11,9 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "types": ["node", "@playwright/test"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true
   },
   "include": [
     "playwright.config.ts",
