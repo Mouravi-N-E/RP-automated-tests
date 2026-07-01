@@ -1,0 +1,25 @@
+{
+    "default": {
+        "paths": [
+            "src/ui/features/**/*.feature"
+        ],
+        "require": [
+            "src/support/hooks.js",
+            "src/ui/step_definitions/**/*.ts"
+        ],
+        "formatOptions": {
+            "snippetInterface": "async-await"
+        },
+        "format": [
+            "progress-bar",
+            "summary",
+            "html:cucumber-report/cucumber-report.html"
+        ],
+        "options": {
+            "dryRun": false
+        },
+        "autocomplete": true,
+        "parallel": 2,
+        "retry": 1
+    }
+}
