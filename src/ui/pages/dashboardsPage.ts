@@ -29,6 +29,7 @@ export class DashboardsPage {
         if (andOpen) {
             await this.page.getByRole('link', { name: dashboardName }).click();
         }
+        // REVIEW: Static waits are flaky. Prefer waiting for the results list or navigation to appear.
         await this.page.waitForTimeout(3000);
     }
 
@@ -37,6 +38,7 @@ export class DashboardsPage {
         const dashboardItems = this.dashboardsTable.locator('xpath=./div');
         const all = await dashboardItems.all()
         const count = await dashboardItems.count();
+        // REVIEW: Skipping the first row assumes a header or non-dashboard row; this is fragile and can miss results.
         for (let i = 1; i < count; i++) {
             const tem = await all[i].locator('xpath=./div/div[1]');
             const name = await tem.allTextContents();
@@ -52,6 +54,7 @@ export class DashboardsPage {
             await this.page.getByRole('textbox', { name: 'Enter dashboard description' }).fill(description);
         }       
         await this.page.getByRole('button', { name: 'Add', exact: true }).click();
+        // REVIEW: Waiting on a fixed timeout and extracting the id from the URL is brittle; wait for a confirmation or use a response payload.
         await this.page.waitForTimeout(2000);
         const dashboardId = await this.page.url().split('/').pop();
         return {'dashboardId': dashboardId, 'dashboardName': dashboardName};
@@ -59,6 +62,7 @@ export class DashboardsPage {
 
     async deleteDashboard(dashboardName: string) { 
         await this.searchDashboard(dashboardName);
+        // REVIEW: Using nth(5) is brittle because button order can change; target the specific delete action in the result row.
         await this.page.getByRole('button').nth(5).click();
         await this.page.getByRole('button', { name: 'Delete' }).click();
     }

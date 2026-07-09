@@ -19,6 +19,7 @@
     "type-check": "tsc --noEmit",
     "prepare": "husky"
   },
+  // Do you know the difference between dependencies and devDependencies?
   "dependencies": {
     "dotenv": "^17.4.2",
     "jiti": "^2.7.0"
