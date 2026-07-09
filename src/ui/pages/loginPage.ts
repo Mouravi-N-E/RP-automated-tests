@@ -1,6 +1,8 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
 export class LoginPage  {
+
+  // All locators initialisation should be moved to another file near POM, as if there 100 locators, it will be hard to maintain and read the code. 
   readonly page: Page;
   readonly loginWithEpamButton: Locator;
   readonly loginField: Locator;
@@ -31,6 +33,6 @@ export class LoginPage  {
     await this.loginField.fill(username);
     await this.passwordField.fill(password);
     await this.loginButton.click(); 
-    await expect(this.page).toHaveURL(/dashboard/);
+    await expect(this.page).toHaveURL(/dashboard/); 
   }
 }

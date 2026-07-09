@@ -7,7 +7,9 @@ test.describe('Dashboards page tests', () => {
     let navBar: NavBar;
     const newDashIds: string[] = [];
     const projectName = 'MENTORING-PROJECT';
+
     test.beforeEach(async ({ page }) => {
+        // Do you know better way to initialise the page objects?
         navBar = new NavBar(page);
         const loginPage = new LoginPage(page);
         await loginPage.goto();
@@ -24,6 +26,7 @@ test.describe('Dashboards page tests', () => {
     test('Open Demo Dashboard page',{
     tag: '@Smoke'
     }, async ({ page }) => {
+        // REVIEW: URL check is weak and may pass before the dashboard page is fully loaded.
         expect(page.url()).toContain('/dashboard');
     });
 

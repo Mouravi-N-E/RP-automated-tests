@@ -5,6 +5,7 @@ export class LoginPageValidations extends LoginPage {
     async validateSocialLinks() {
     const githubLink = this.githubLink;
     const facebookLink = this.facebookLink;
+    // all urls is constants in that case, so we should move it to env variables or create them in constant.ts
     const socialLinks = [
       { 'link': githubLink, 'url': 'https://github.com/reportportal' },
       { 'link': facebookLink, 'url': 'https://www.facebook.com/ReportPortal.io' }
