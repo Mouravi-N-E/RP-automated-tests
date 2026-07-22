@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures/dashboardsPageFixture';
 import { LoginPage } from '../pages/loginPage';
-import { NavBar } from '../pages/navBar';
+import { NavBar } from '../components/navBar';
 import { cleanupDashboard } from '../../api/helpers/dashboardsHelpers';
 
 test.describe('Dashboards page tests', () => {
@@ -11,7 +11,8 @@ test.describe('Dashboards page tests', () => {
         navBar = new NavBar(page);
         const loginPage = new LoginPage(page);
         await loginPage.goto();
-        await loginPage.loginWithCredentials(process.env.LOGIN_DEFAULT!, process.env.PASSWORD_DEFAULT!);
+
+        await loginPage.loginWithCredentials({isAdmin: true});
         await navBar.openProject(projectName);
     });
 
@@ -21,8 +22,8 @@ test.describe('Dashboards page tests', () => {
         }
     });
 
-    test('Open Demo Dashboard page',{
-    tag: '@Smoke'
+    test('Open Demo Dashboard page', {
+        tag: '@Smoke'
     }, async ({ page }) => {
         expect(page.url()).toContain('/dashboard');
     });
@@ -37,8 +38,8 @@ test.describe('Dashboards page tests', () => {
     test('Add new dashboard', async ({ dashboardsPage }) => {
         const dashboardName = 'Test Dashboard';
         const { dashboardId } = await dashboardsPage.addNewDashboard(dashboardName, 'This is a test dashboard');
-        if ( dashboardId ) {
-            newDashIds.push(dashboardId) 
+        if (dashboardId) {
+            newDashIds.push(dashboardId)
         }
         await navBar.openDashboards();
         await dashboardsPage.searchDashboard(dashboardName);
@@ -50,8 +51,8 @@ test.describe('Dashboards page tests', () => {
     test('Add new dashboard then delete', async ({ dashboardsPage }) => {
         const dashboardName = 'Test Dashboard';
         const { dashboardId } = await dashboardsPage.addNewDashboard(dashboardName, 'This is a test dashboard');
-        if ( dashboardId ) {
-            newDashIds.push(dashboardId) 
+        if (dashboardId) {
+            newDashIds.push(dashboardId)
         }
         await navBar.openDashboards();
         await dashboardsPage.searchDashboard(dashboardName);

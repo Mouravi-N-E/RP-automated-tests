@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
-export class LoginPage  {
+export class LoginPage {
   readonly page: Page;
   readonly loginWithEpamButton: Locator;
   readonly loginField: Locator;
@@ -27,10 +27,20 @@ export class LoginPage  {
     await this.page.goto('/');
   }
 
-  async loginWithCredentials(username: string, password: string) {
+  async loginWithCredentials(options: { username?: string; password?: string; isAdmin?: boolean } = {}) {
+    if (options.isAdmin) {
+      options.username = process.env.LOGIN_ADMIN!;
+      options.password = process.env.PASSWORD_ADMIN!;
+    }
+    if (!options.username || !options.password) {
+      options.username = process.env.LOGIN_DEFAULT!;
+      options.password = process.env.PASSWORD_DEFAULT!;
+    }
+
+    const { username, password } = options;
     await this.loginField.fill(username);
     await this.passwordField.fill(password);
-    await this.loginButton.click(); 
+    await this.loginButton.click();
     await expect(this.page).toHaveURL(/dashboard/);
   }
 }

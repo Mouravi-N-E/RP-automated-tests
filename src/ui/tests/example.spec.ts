@@ -6,7 +6,7 @@ test('Login with credentials happy path', {
 
   await expect(loginPage.page).toHaveTitle(/Report Portal/);
   
-  await loginPage.loginWithCredentials(process.env.LOGIN_DEFAULT!, process.env.PASSWORD_DEFAULT!);
+  await loginPage.loginWithCredentials({isAdmin: true});
 });
 
 test('Socials links',{
