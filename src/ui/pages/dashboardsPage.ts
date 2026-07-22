@@ -25,18 +25,22 @@ export class DashboardsPage {
         if (dashboardName.length < 3) {
             throw new Error('Dashboard name must be at least 3 characters long');
         }
-        await this.searchBar.fill(dashboardName);
+        const [response] = await Promise.all([
+            this.page.waitForResponse(res => res.url().includes(`filter.cnt.name=${dashboardName.replace(' ', '%20')}`) && res.status() === 200),
+            await this.searchBar.fill(dashboardName)
+        ]);
         if (andOpen) {
             await this.page.getByRole('link', { name: dashboardName }).click();
         }
-        await this.page.waitForTimeout(3000);
+        await response.finished();
     }
 
     async getDashboardsInTable(): Promise<string[]> {
         const dashboardNames: string[] = [];
-        const dashboardItems = this.dashboardsTable.locator('xpath=./div');
+        const dashboardItems = this.dashboardsTable.locator('xpath=./div')//.filter({ has: this.page.locator('[data-id]') });
         const all = await dashboardItems.all()
         const count = await dashboardItems.count();
+        // filter by data id ???
         for (let i = 1; i < count; i++) {
             const tem = await all[i].locator('xpath=./div/div[1]');
             const name = await tem.allTextContents();
@@ -51,13 +55,18 @@ export class DashboardsPage {
         if (description) {
             await this.page.getByRole('textbox', { name: 'Enter dashboard description' }).fill(description);
         }       
-        await this.page.getByRole('button', { name: 'Add', exact: true }).click();
-        await this.page.waitForTimeout(2000);
+        const [response] = await Promise.all([
+            this.page.waitForResponse(res => res.url().includes('dashboard') && res.status() === 200),
+            await this.page.getByRole('button', { name: 'Add', exact: true }).click()
+        ]);
+        await response.finished();
         const dashboardId = await this.page.url().split('/').pop();
         return {'dashboardId': dashboardId, 'dashboardName': dashboardName};
     }
 
     async deleteDashboard(dashboardName: string) { 
+        await this.searchBar.clear();
+        await this.page.waitForLoadState('networkidle');
         await this.searchDashboard(dashboardName);
         await this.page.getByRole('button').nth(5).click();
         await this.page.getByRole('button', { name: 'Delete' }).click();
