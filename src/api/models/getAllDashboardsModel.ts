@@ -3,7 +3,7 @@ export type AllDashboardsData = {
     page: Page;
 }
 
-type Content = [
+export type Content = [
     {
         owner: string;
         locked: string;
