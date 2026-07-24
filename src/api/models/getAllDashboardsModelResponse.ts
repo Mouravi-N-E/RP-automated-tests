@@ -1,4 +1,4 @@
-export type AllDashboardsData = {
+export type AllDashboardsDataResponse = {
     content: Content;
     page: Page;
 }
@@ -9,7 +9,7 @@ export type Content = [
         locked: string;
         id: number;
         name: string;
-        widgets: Widgets;
+        widgets: Widget[];
     }
 ]
 
@@ -20,16 +20,14 @@ type Page = {
     totalPages: number;
 }
 
-type Widgets = [
-    {
-        widgetName: string;
-        widgetId: number;
-        widgetType: string;
-        widgetSize: WidgetSize;
-        widgetPosition: WidgetPosition;
-        widgetOptions: WidgetOptions;
-    }
-]
+export type Widget = {
+    widgetName: string;
+    widgetId: number;
+    widgetType: string;
+    widgetSize: WidgetSize;
+    widgetPosition: WidgetPosition;
+    widgetOptions?: WidgetOptions;
+};
 
 type WidgetSize = {
     width: number;

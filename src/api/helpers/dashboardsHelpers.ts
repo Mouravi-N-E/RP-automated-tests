@@ -1,6 +1,9 @@
 import { APIRequestContext, request } from '@playwright/test';
-import type { AllDashboardsData, Content } from '../models/getAllDashboardsModel';
+import type { AllDashboardsDataResponse} from '../models/getAllDashboardsModelResponse';
 import type { CreateDashboardResponse } from '../models/createDashboardsResponse';
+import { UpdateDashboardRequest } from '../models/updateDashboardRequest';
+import { GetDashboardResponse } from '../models/getDashboardResponse';
+import { addWidgetToDashboardRequest } from '../models/addWidgetToDash';
 
 let apiRequest: APIRequestContext;
 (async () => {
@@ -24,7 +27,7 @@ export async function cleanupDashboard(dashboardId: string, projectName: string)
     return responseData;
 }
 
-export async function getAllDashboards(projectName: string,): Promise<AllDashboardsData> {
+export async function getAllDashboards(projectName: string,): Promise<AllDashboardsDataResponse> {
     const response = await apiRequest.get(`/api/v1/${projectName}/dashboard`, {
         headers: {
             Authorization: `Bearer ${process.env.JWT_TOKEN}`,
@@ -38,7 +41,7 @@ export async function getAllDashboards(projectName: string,): Promise<AllDashboa
     return responseData;
 }
 
-export async function getDashboardById(projectName: string, dashboardId: string): Promise<Content[0]> {
+export async function getDashboardById(projectName: string, dashboardId: string): Promise<GetDashboardResponse> {
     const response = await apiRequest.get(`/api/v1/${projectName}/dashboard/${dashboardId}`, {
         headers: {
             Authorization: `Bearer ${process.env.JWT_TOKEN}`,
@@ -68,4 +71,30 @@ export async function createNewDashboard(projectName: string, dashboardName: str
     }
 
     return responseData;
+}
+
+export async function updateDashboard(projectName: string, dashboardId: string, updateData: UpdateDashboardRequest): Promise<CreateDashboardResponse> {
+    const response = await apiRequest.put(`/api/v1/${projectName}/dashboard/${dashboardId}`, {
+        headers: {
+            Authorization: `Bearer ${process.env.JWT_TOKEN}`,
+        },
+        data: updateData,
+    });
+    if (response.status() !== 200) {
+        throw new Error(`Failed to update dashboard. Error Message: ${(await response.json()).message}`);
+    }
+    const responseData: CreateDashboardResponse = await response.json();
+    return responseData;
+}
+
+export async function addWidgetToDashboard(projectName: string, dashboardId: string, widgetData: addWidgetToDashboardRequest): Promise<void> {
+    const response = await apiRequest.put(`/api/v1/${projectName}/dashboard/${dashboardId}/add`, {
+        headers: {
+            Authorization: `Bearer ${process.env.JWT_TOKEN}`,
+        }, 
+        data: widgetData,
+    });
+    if (response.status() !== 200) {
+        throw new Error(`Failed to add widget to dashboard. Error Message: ${(await response.json()).message}`);
+    }
 }
