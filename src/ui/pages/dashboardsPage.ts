@@ -1,4 +1,5 @@
 import { Page, Locator } from '@playwright/test';
+import { AddOrEditDashPopUp } from './addEditDashPopUp';
 
 export class DashboardsPage {
     readonly page: Page;
@@ -70,5 +71,23 @@ export class DashboardsPage {
         await this.searchDashboard(dashboardName);
         await this.page.getByRole('button').nth(5).click();
         await this.page.getByRole('button', { name: 'Delete' }).click();
+    }
+
+    async editDashBoard(dashboardName:string, newName?: string, newDescription?:string ){
+        if(!newName && !newDescription){
+            throw new Error('Please provide either new Title or Description for the Dashboard')
+        }
+        await this.searchBar.clear();
+        await this.page.waitForLoadState('networkidle');
+        await this.searchDashboard(dashboardName);
+        await this.page.getByRole('button').nth(4).click();
+        const popUp = new AddOrEditDashPopUp(this.page)
+        if(newName){
+            await popUp.fillName(newName);
+        }
+        if(newDescription){
+            await popUp.fillDescription(newDescription)
+        }
+        await popUp.confirm()
     }
 }

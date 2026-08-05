@@ -128,9 +128,6 @@ test.describe('Dashboards API Tests', () => {
     });
 });
 
-
-
-
 // add widget to dashboard happy path
 
 // remove widget from dashboard happy path

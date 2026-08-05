@@ -63,4 +63,20 @@ test.describe('Dashboards page tests', () => {
         expect(dashboardsInView).not.toContain(dashboardName);
         newDashIds.pop();
     });
+
+    test('Edit Dashboard Name and description', async ({ dashboardsPage }) => {
+        const dashboardName = 'Editable Dash';
+        const newDashName = 'New Name';
+        const dashDescription = 'New description for dash'
+        const { dashboardId } = await dashboardsPage.addNewDashboard(dashboardName, 'This is a test dashboard');
+        if (dashboardId) {
+            newDashIds.push(dashboardId)
+        }
+        await navBar.openDashboards();
+
+        await dashboardsPage.editDashBoard(dashboardName, newDashName, dashDescription )
+
+        // implement validation here 
+
+    });
 })
