@@ -18,6 +18,14 @@ export class DashboardsPage {
         this.dashboardsTable = page.locator('xpath=//*[@id="app"]/div/div/div/div/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]');
     }
 
+    async goto(projectName?: string) {
+        if(projectName) { 
+            await this.page.goto(`/ui/#${projectName}/dashboard`) 
+        }else{
+            await this.page.goto('/');
+        }
+    }
+
     async openDashboard(dashboardName: string) {
         await this.page.getByRole('link', { name: dashboardName }).click();
     }
@@ -55,17 +63,17 @@ export class DashboardsPage {
         await this.page.getByRole('textbox', { name: 'Enter dashboard name' }).fill(dashboardName);
         if (description) {
             await this.page.getByRole('textbox', { name: 'Enter dashboard description' }).fill(description);
-        }       
+        }
         const [response] = await Promise.all([
             this.page.waitForResponse(res => res.url().includes('dashboard') && res.status() === 200),
             await this.page.getByRole('button', { name: 'Add', exact: true }).click()
         ]);
         await response.finished();
         const dashboardId = await this.page.url().split('/').pop();
-        return {'dashboardId': dashboardId, 'dashboardName': dashboardName};
+        return { 'dashboardId': dashboardId, 'dashboardName': dashboardName };
     }
 
-    async deleteDashboard(dashboardName: string) { 
+    async deleteDashboard(dashboardName: string) {
         await this.searchBar.clear();
         await this.page.waitForLoadState('networkidle');
         await this.searchDashboard(dashboardName);
@@ -73,8 +81,8 @@ export class DashboardsPage {
         await this.page.getByRole('button', { name: 'Delete' }).click();
     }
 
-    async editDashBoard(dashboardName:string, newName?: string, newDescription?:string ){
-        if(!newName && !newDescription){
+    async editDashBoard(dashboardName: string, newName?: string, newDescription?: string) {
+        if (!newName && !newDescription) {
             throw new Error('Please provide either new Title or Description for the Dashboard')
         }
         await this.searchBar.clear();
@@ -82,10 +90,10 @@ export class DashboardsPage {
         await this.searchDashboard(dashboardName);
         await this.page.getByRole('button').nth(4).click();
         const popUp = new AddOrEditDashPopUp(this.page)
-        if(newName){
+        if (newName) {
             await popUp.fillName(newName);
         }
-        if(newDescription){
+        if (newDescription) {
             await popUp.fillDescription(newDescription)
         }
         await popUp.confirm()

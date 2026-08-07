@@ -1,5 +1,4 @@
 import { test, expect } from '../fixtures/dashboardsPageFixture';
-import { LoginPage } from '../pages/loginPage';
 import { NavBar } from '../components/navBar';
 import { cleanupDashboard } from '../../api/helpers/dashboardsHelpers';
 
@@ -7,12 +6,9 @@ test.describe('Dashboards page tests', () => {
     let navBar: NavBar;
     const newDashIds: string[] = [];
     const projectName = 'MENTORING-PROJECT';
-    test.beforeEach(async ({ page }) => {
-        navBar = new NavBar(page);
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-
-        await loginPage.loginWithCredentials({isAdmin: true});
+    test.beforeEach(async ({ dashboardsPage }) => {
+        navBar = new NavBar(dashboardsPage.page);
+        await dashboardsPage.goto()
         await navBar.openProject(projectName);
     });
 
