@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test';
-import { AddOrEditDashPopUp } from './addEditDashPopUp';
+import { AddOrEditDashPopUp } from '../components/addEditDashPopUp';
 
 export class DashboardsPage {
     readonly page: Page;
@@ -19,9 +19,9 @@ export class DashboardsPage {
     }
 
     async goto(projectName?: string) {
-        if(projectName) { 
-            await this.page.goto(`/ui/#${projectName}/dashboard`) 
-        }else{
+        if (projectName) {
+            await this.page.goto(`/ui/#${projectName}/dashboard`)
+        } else {
             await this.page.goto('/');
         }
     }

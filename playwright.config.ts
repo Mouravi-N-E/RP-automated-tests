@@ -73,7 +73,7 @@ export default defineConfig({
         storageState: 'src/playwright/.auth/user.json',
         headless: process.env.HEADLESS === 'true',
         screenshot: 'only-on-failure',
-        trace: 'on-first-retry',    
+        trace: 'on-first-retry',
       },
       dependencies: ['ui setup'],
     },
@@ -81,9 +81,9 @@ export default defineConfig({
       name: 'api-full-regression',
       testMatch: 'src/api/tests/*.spec.ts',
       use: {
-        trace: 'on-first-retry',    
+        trace: 'on-first-retry',
       },
-      dependencies: ['global setup', ],
+      dependencies: ['global setup'],
     }
   ],
 });
