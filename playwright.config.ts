@@ -23,7 +23,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['list'], ['html']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -37,41 +37,51 @@ export default defineConfig({
     {
       name: 'global setup',
       testMatch: /global\.setup\.ts/,
-      teardown: 'global teardown',
     },
     {
-      name: 'global teardown',
-      testMatch: /global\.teardown\.ts/,
+      name: 'ui teardown',
+      testMatch: /ui\.teardown\.ts/,
     },
     {
-      name: 'Smoke',
-      grep: /@Smoke/,
-      retries: 1,
+      name: 'ui setup',
+      testMatch: /ui\.setup\.ts/,
+      teardown: 'ui teardown',
+      dependencies: ['global setup'],
       use: {
         ...devices['Desktop Chrome'],
-        headless: process.env.HEADLESS === 'true',
-        screenshot: 'only-on-failure',
-        trace: 'on-first-retry',    
+        headless: true,
       },
-      dependencies: ['global setup'],
-      timeout: 30 * 1000, // 30 seconds
     },
+    // {
+    //   name: 'Smoke',
+    //   grep: /@Smoke/,
+    //   retries: 1,
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     headless: process.env.HEADLESS === 'true',
+    //     screenshot: 'only-on-failure',
+    //     trace: 'on-first-retry',    
+    //   },
+    //   dependencies: ['global setup'],
+    //   timeout: 30 * 1000, // 30 seconds
+    // },
     {
       name: 'UI-full-regression',
       testMatch: 'src/ui/tests/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
+        storageState: 'src/playwright/.auth/user.json',
         headless: process.env.HEADLESS === 'true',
         screenshot: 'only-on-failure',
-        trace: 'on-first-retry',    
+        trace: 'on-first-retry',
       },
-      dependencies: ['global setup'],
+      dependencies: ['ui setup'],
     },
     {
       name: 'api-full-regression',
       testMatch: 'src/api/tests/*.spec.ts',
       use: {
-        trace: 'on-first-retry',    
+        trace: 'on-first-retry',
       },
       dependencies: ['global setup'],
     }

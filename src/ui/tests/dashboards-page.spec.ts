@@ -1,5 +1,4 @@
 import { test, expect } from '../fixtures/dashboardsPageFixture';
-import { LoginPage } from '../pages/loginPage';
 import { NavBar } from '../components/navBar';
 import { cleanupDashboard } from '../../api/helpers/dashboardsHelpers';
 
@@ -7,12 +6,9 @@ test.describe('Dashboards page tests', () => {
     let navBar: NavBar;
     const newDashIds: string[] = [];
     const projectName = 'MENTORING-PROJECT';
-    test.beforeEach(async ({ page }) => {
-        navBar = new NavBar(page);
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-
-        await loginPage.loginWithCredentials({isAdmin: true});
+    test.beforeEach(async ({ dashboardsPage }) => {
+        navBar = new NavBar(dashboardsPage.page);
+        await dashboardsPage.goto()
         await navBar.openProject(projectName);
     });
 
@@ -62,5 +58,22 @@ test.describe('Dashboards page tests', () => {
         const dashboardsInView = await dashboardsPage.getDashboardsInTable();
         expect(dashboardsInView).not.toContain(dashboardName);
         newDashIds.pop();
+    });
+
+    test('Edit Dashboard Name and description', async ({ dashboardsPage }) => {
+        const dashboardName = 'Editable Dash';
+        const newDashName = 'New Name';
+        const dashDescription = 'New description for dash'
+        const { dashboardId } = await dashboardsPage.addNewDashboard(dashboardName, 'This is a test dashboard');
+        if (dashboardId) {
+            newDashIds.push(dashboardId)
+        }
+        await navBar.openDashboards();
+
+        await dashboardsPage.editDashBoard(dashboardName, newDashName, dashDescription )
+
+        const dashboardsInView = await dashboardsPage.getDashboardsInTable();
+        expect(dashboardsInView).not.toContain(dashboardName)
+        expect(dashboardsInView).toContain(newDashName)
     });
 })

@@ -1,5 +1,5 @@
 import { Widget } from "./getAllDashboardsModelResponse";
-export type UpdateDashboardRequest = {
+export interface UpdateDashboardRequest {
     name: string;
     description?: string;
     updateWidgets?: Widget[];

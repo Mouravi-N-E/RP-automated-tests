@@ -2,8 +2,6 @@ import { LoginPageValidations } from "../helpers/loginPageValidations";
 import { LoginPage } from "../pages/loginPage";
 import { test as base } from '@playwright/test';
 
-
-
 interface LoginFixtures { 
     loginPage: LoginPage;
     loginValidations: LoginPageValidations;
