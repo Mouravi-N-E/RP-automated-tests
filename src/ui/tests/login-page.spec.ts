@@ -1,9 +1,7 @@
 import { test, expect } from '../fixtures/loginPageFixture';
 
 test.describe('Login page Tests', () => {
-  test.use({
-    storageState: ''
-  })
+  test.use({ storageState: { cookies: [], origins: [] } })
   test('Login with credentials happy path', {
     tag: '@Smoke'
   }, async ({ loginPage }) => {

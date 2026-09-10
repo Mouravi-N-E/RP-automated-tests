@@ -72,7 +72,8 @@ test.describe('Dashboards page tests', () => {
 
         await dashboardsPage.editDashBoard(dashboardName, newDashName, dashDescription )
 
-        // implement validation here 
-
+        const dashboardsInView = await dashboardsPage.getDashboardsInTable();
+        expect(dashboardsInView).not.toContain(dashboardName)
+        expect(dashboardsInView).toContain(newDashName)
     });
 })

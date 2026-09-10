@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { AddOrEditDashPopUp } from '../components/addEditDashPopUp';
+import { DeleteDashPopUp } from '../components/deleteDashPopUp';
 
 export class SingleDashPage {
     readonly page: Page;
@@ -26,7 +27,8 @@ export class SingleDashPage {
 
     async deleteDashboard() {
         await this.deleteButton.click();
-        await this.page.getByRole('button', { name: 'Delete' }).click();
+        const popUp = new DeleteDashPopUp(this.page)
+        await popUp.confirm()
     }
 
     async editDashBoard(newName?: string, newDescription?: string) {

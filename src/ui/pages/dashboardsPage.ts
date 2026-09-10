@@ -8,6 +8,7 @@ export class DashboardsPage {
     readonly gridViewButton: Locator;
     readonly listViewButton: Locator;
     readonly dashboardsTable: Locator;
+    readonly editDashboardButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -16,6 +17,7 @@ export class DashboardsPage {
         this.gridViewButton = page.getByRole('button').nth(1);
         this.listViewButton = page.getByRole('button').nth(2);
         this.dashboardsTable = page.locator('xpath=//*[@id="app"]/div/div/div/div/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]');
+        this.editDashboardButton = page.getByRole('button').nth(4)
     }
 
     async goto(projectName?: string) {
@@ -88,7 +90,7 @@ export class DashboardsPage {
         await this.searchBar.clear();
         await this.page.waitForLoadState('networkidle');
         await this.searchDashboard(dashboardName);
-        await this.page.getByRole('button').nth(4).click();
+        await this.editDashboardButton.click();
         const popUp = new AddOrEditDashPopUp(this.page)
         if (newName) {
             await popUp.fillName(newName);
@@ -96,6 +98,7 @@ export class DashboardsPage {
         if (newDescription) {
             await popUp.fillDescription(newDescription)
         }
-        await popUp.confirm()
+        await popUp.confirm();
+        await this.searchBar.clear();
     }
 }
