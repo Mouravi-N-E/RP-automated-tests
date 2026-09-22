@@ -14,14 +14,16 @@ jobs:
       PASSWORD_ADMIN: ${{secrets.PASSWORD_ADMIN}}
     steps:
       - uses: actions/checkout@v4
-      - name: check docker
+      - name: Check docker
         run: |
           docker --version
           docker compose version
 
-      - name: check secs
-        run: |
-          echo docker-compose.yml
+      - name: Build RP
+        run: docker-compose -p reportportal up -d --force-recreate
+        
+      - name: Teardown RP
+        run: docker compose down --volumes --remove-orphans
 
   # test:
   #   timeout-minutes: 60
