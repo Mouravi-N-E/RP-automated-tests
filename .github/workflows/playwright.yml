@@ -11,7 +11,7 @@ jobs:
     environment: RP_PROD 
     env:
       BASE_URL: ${{ vars.BASE_URL }}
-      HEADLESS: ${{ vars.HEADLESS }}
+      PASSWORD_ADMIN: ${{secrets.PASSWORD_ADMIN}}
     steps:
       - uses: actions/checkout@v4
       - name: check docker
@@ -21,8 +21,7 @@ jobs:
 
       - name: check secs
         run: |
-          echo ${{secrets.LOGIN_DEFAULT}}
-          echo ${{vars.BASE_URL}}
+          echo docker-compose.yml
 
   # test:
   #   timeout-minutes: 60
