@@ -1,9 +1,9 @@
-export type AllDashboardsDataResponse = {
+export interface AllDashboardsDataResponse {
     content: Content;
     page: Page;
 }
 
-export type Content = [
+export type Content =  [
     {
         owner: string;
         locked: string;
@@ -13,14 +13,14 @@ export type Content = [
     }
 ]
 
-type Page = {
+interface Page {
     number: number;
     size: number;
     totalElements: number;
     totalPages: number;
 }
 
-export type Widget = {
+export interface Widget {
     widgetName: string;
     widgetId: number;
     widgetType: string;
@@ -29,17 +29,17 @@ export type Widget = {
     widgetOptions?: WidgetOptions;
 };
 
-type WidgetSize = {
+interface WidgetSize {
     width: number;
     height: number;
 }
 
-type WidgetPosition = {
+interface WidgetPosition {
     positionX: number;
     positionY: number;
 }
 
-type WidgetOptions = {
+interface WidgetOptions {
     timeline: string;
     zoom: string;
     viewMode: string;

@@ -1,6 +1,6 @@
 import { Widget } from "./getAllDashboardsModelResponse";
 
-export type GetDashboardResponse = {
+export interface GetDashboardResponse {
     id: string;
     name: string;
     description?: string;
