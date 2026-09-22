@@ -4,13 +4,13 @@ on:
     branches:  main 
   pull_request:
     branches: main
+
 jobs:
   build-rp:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     environment: RP_PROD 
     env:
-      BASE_URL: ${{ vars.BASE_URL }}
       PASSWORD_ADMIN: ${{secrets.PASSWORD_ADMIN}}
     steps:
       - uses: actions/checkout@v4
@@ -22,31 +22,41 @@ jobs:
       - name: Build RP
         run: docker compose -f docker/docker-compose.yml -p reportportal up -d --force-recreate
 
-      - name: Teardown RP
-        run: docker compose down --volumes --remove-orphans
+  run-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    environment: RP_PROD 
+    env:
+      BASE_URL: ${{ vars.BASE_URL }}
+      HEADLESS: ${{ vars.HEADLESS }}
+      PASSWORD_ADMIN: ${{secrets.PASSWORD_ADMIN}}
+      LOGIN_ADMIN: ${{secrets.LOGIN_ADMIN}}
+      PASSWORD_DEFAULT: ${{secrets.PASSWORD_DEFAULT}}
+      LOGIN_DEFAULT: ${{secrets.LOGIN_DEFAULT}}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright smoke tests
+      run: npm run test:smoke
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+  
+  teardown-rp:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-  # test:
-  #   timeout-minutes: 60
-  #   runs-on: ubuntu-latest
-    # environment: RP_PROD 
-    # env:
-    #   BASE_URL: ${{ vars.BASE_URL }}
-    #   HEADLESS: ${{ vars.HEADLESS }}
-    # steps:
-    # - uses: actions/checkout@v4
-    # - uses: actions/setup-node@v4
-    #   with:
-    #     node-version: lts/*
-    # - name: Install dependencies
-    #   run: npm ci
-    # - name: Install Playwright Browsers
-    #   run: npx playwright install --with-deps
-    # - name: Run Playwright smoke tests
-    #   run: npm run test:smoke
-    # - uses: actions/upload-artifact@v4
-    #   if: ${{ !cancelled() }}
-    #   with:
-    #     name: playwright-report
-    #     path: playwright-report/
-    #     retention-days: 30
+      - name: Teardown RP
+        run: docker compose -f docker/docker-compose.yml down --volumes --remove-orphans
  
