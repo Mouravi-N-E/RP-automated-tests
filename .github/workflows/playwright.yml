@@ -8,16 +8,21 @@ jobs:
   build-rp:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    environment: RP_PROD 
+    env:
+      BASE_URL: ${{ vars.BASE_URL }}
+      HEADLESS: ${{ vars.HEADLESS }}
     steps:
       - uses: actions/checkout@v4
-      - name: update stuff
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose-plugin
       - name: check docker
         run: |
           docker --version
           docker compose version
+
+      - name: check secs
+        run: |
+          echo ${{secrets.LOGIN_DEFAULT}}
+          echo ${{vars.BASE_URL}}
 
   # test:
   #   timeout-minutes: 60
