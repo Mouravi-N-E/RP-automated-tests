@@ -1,7 +1,7 @@
 name: Playwright Tests
 on:
   push:
-    branches:  [main, CI/CD-home-task ]
+    branches:  main 
   pull_request:
     branches: main
 jobs:
@@ -13,7 +13,7 @@ jobs:
       - name: update stuff
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker-compose-plugine
+          sudo apt-get install -y docker-compose-plugin
       - name: check docker
         run: |
           docker --version
