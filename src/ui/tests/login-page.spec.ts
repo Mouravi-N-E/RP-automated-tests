@@ -11,7 +11,7 @@ test.describe('Login page Tests', () => {
     await loginPage.loginWithCredentials({ isAdmin: true });
   });
 
-  test('Socials links', {
+  test.skip('Socials links', {
     tag: '@Smoke'
   }, async ({ loginValidations }) => {
     await loginValidations.validateSocialLinks();

@@ -1,13 +1,23 @@
 name: Playwright Tests
 on:
   push:
-    branches: [ main, master ]
+    branches:  main
   pull_request:
-    branches: [ main, master ]
+    branches: main
 jobs:
-  test:
+  build-rp:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: check docker
+        run: |
+          docker --version
+          docker compose version
+
+  # test:
+  #   timeout-minutes: 60
+  #   runs-on: ubuntu-latest
     # environment: RP_PROD 
     # env:
     #   BASE_URL: ${{ vars.BASE_URL }}

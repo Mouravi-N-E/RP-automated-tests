@@ -66,7 +66,7 @@ export default defineConfig({
     //   timeout: 30 * 1000, // 30 seconds
     // },
     {
-      name: 'UI-full-regression',
+      name: 'ui-full-regression',
       testMatch: 'src/ui/tests/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
