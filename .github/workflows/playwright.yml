@@ -24,7 +24,7 @@ jobs:
 
       - name: Check containers
         run: |
-          docker compose -f docker-compose.yml ps
+          docker compose -f  docker/docker-compose.yml ps
           docker ps
 
       - name: Test application
