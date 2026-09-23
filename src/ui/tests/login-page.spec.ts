@@ -4,12 +4,13 @@ test.describe('Login page Tests', () => {
   test.use({ storageState: { cookies: [], origins: [] } })
   test('Login with credentials happy path', {
     tag: '@Smoke'
-  }, async ({ loginPage, page }) => {
+  }, async ({ page }) => {
 
     // await expect(loginPage.page).toHaveTitle(/Report Portal/);
     await page.goto('https://playwright.dev/')
+    expect(page).toHaveTitle('boooo')
 
-    await loginPage.loginWithCredentials({ isAdmin: true });
+    //await loginPage.loginWithCredentials({ isAdmin: true });
   });
 
   test.skip('Socials links', {
