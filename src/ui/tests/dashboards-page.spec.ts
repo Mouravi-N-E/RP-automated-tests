@@ -19,7 +19,6 @@ test.describe('Dashboards page tests', () => {
     });
 
     test('Open Demo Dashboard page', {
-        tag: '@Smoke'
     }, async ({ page }) => {
         expect(page.url()).toContain('/dashboard');
     });

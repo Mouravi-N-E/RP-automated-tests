@@ -52,21 +52,21 @@ export default defineConfig({
         headless: true,
       },
     },
-    // {
-    //   name: 'Smoke',
-    //   grep: /@Smoke/,
-    //   retries: 1,
-    //   use: {
-    //     ...devices['Desktop Chrome'],
-    //     headless: process.env.HEADLESS === 'true',
-    //     screenshot: 'only-on-failure',
-    //     trace: 'on-first-retry',    
-    //   },
-    //   dependencies: ['global setup'],
-    //   timeout: 30 * 1000, // 30 seconds
-    // },
     {
-      name: 'UI-full-regression',
+      name: 'Smoke',
+      grep: /@Smoke/,
+      retries: 1,
+      use: {
+        ...devices['Desktop Chrome'],
+        headless: process.env.HEADLESS === 'true',
+        screenshot: 'only-on-failure',
+        trace: 'on-first-retry',    
+      },
+      dependencies: ['global setup'],
+      timeout: 30 * 1000, // 30 seconds
+    },
+    {
+      name: 'ui-full-regression',
       testMatch: 'src/ui/tests/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
