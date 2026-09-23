@@ -7,7 +7,7 @@ test.describe('Login page Tests', () => {
   }, async ({ loginPage, page }) => {
 
     // await expect(loginPage.page).toHaveTitle(/Report Portal/);
-    await page.goto('http://localhost:8080')
+    await page.goto('https://playwright.dev/')
 
     await loginPage.loginWithCredentials({ isAdmin: true });
   });
