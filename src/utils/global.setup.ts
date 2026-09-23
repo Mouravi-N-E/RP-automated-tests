@@ -4,5 +4,4 @@ import { getJWTToken } from './apiAuth';
 setup('getApiToken', async ({ request }) => {
   // const jwtToken = await getJWTToken(request);
   // process.env.JWT_TOKEN = jwtToken;
-  console.log(process.env.BASE_URL)
 }); 
