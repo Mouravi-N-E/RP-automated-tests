@@ -61,4 +61,7 @@ jobs:
 
       - name: Teardown RP
         run: docker compose -f docker/docker-compose.yml down --volumes --remove-orphans
+
+      - name: check containers
+        run: docker ps
  
