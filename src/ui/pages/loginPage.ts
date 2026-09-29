@@ -10,6 +10,7 @@ export class LoginPage {
   readonly githubLink: Locator;
   readonly facebookLink: Locator;
   readonly privacyPolicyLink: Locator;
+  readonly loadingText: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -21,13 +22,14 @@ export class LoginPage {
     this.githubLink = page.getByRole('link').nth(4);
     this.facebookLink = page.getByRole('link').nth(5);
     this.privacyPolicyLink = page.getByRole('link', { name: 'Privacy Policy' });
+    this.loadingText = page.getByRole('button', { name: 'Login' });
   }
 
   async goto() {
     await this.page.goto('/');
   }
 
-  async loginWithCredentials(options: { username?: string; password?: string; isAdmin?: boolean } = {}) {
+  async loginWithCredentials(options: { username?: string; password?: string; isAdmin?: boolean, iniTialize?: boolean } = {}) {
     if (options.isAdmin) {
       options.username = process.env.LOGIN_ADMIN!;
       options.password = process.env.PASSWORD_ADMIN!;
@@ -35,6 +37,17 @@ export class LoginPage {
     if (!options.username || !options.password) {
       options.username = process.env.LOGIN_DEFAULT!;
       options.password = process.env.PASSWORD_DEFAULT!;
+    }
+
+    if (options.iniTialize) {
+      for (let i = 0; i < 30; i++) {
+        if (await this.loadingText.isVisible()) {
+          await this.page.waitForTimeout(1000);
+          await this.page.reload();
+        }else{
+          break;
+        }
+      }
     }
 
     const { username, password } = options;

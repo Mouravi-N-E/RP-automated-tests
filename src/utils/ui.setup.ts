@@ -7,6 +7,6 @@ const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 setup('authenticate', async ({ page }) => {
     const loginPage = new LoginPage(page)
     await loginPage.goto()
-    await loginPage.loginWithCredentials({isAdmin: true});
+    await loginPage.loginWithCredentials({isAdmin: true, iniTialize: true});
     await page.context().storageState({ path: authFile });
 });

@@ -9,7 +9,7 @@ test.describe('Login page Tests', () => {
     // await expect(loginPage.page).toHaveTitle(/Report Portal/);
     await page.goto('https://playwright.dev/')
     await page.goto('http://localhost:8080/ui/#login')
-    expect(page).toHaveTitle('Fast and reliable end-to-end testing for modern web apps | Playwright')
+    expect(page).toHaveTitle(/Report Portal/);
 
     //await loginPage.loginWithCredentials({ isAdmin: true });
   });

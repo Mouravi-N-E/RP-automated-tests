@@ -62,7 +62,7 @@ export default defineConfig({
         screenshot: 'only-on-failure',
         trace: 'on-first-retry',    
       },
-      dependencies: ['global setup'],
+      dependencies: ['ui setup'],
       timeout: 30 * 1000, // 30 seconds
     },
     {
