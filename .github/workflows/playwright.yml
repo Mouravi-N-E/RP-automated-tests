@@ -51,9 +51,6 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Test application
-      run: |
-          curl -v http://localhost:8080/ui/#login
     - name: Test application 127
       run: |
           curl -v http://127.0.0.1:8080/ui/#login
