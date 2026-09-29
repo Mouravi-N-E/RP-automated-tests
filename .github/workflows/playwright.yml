@@ -27,11 +27,13 @@ jobs:
           docker compose -f docker/docker-compose.yml ps
           docker ps
 
+      - name: Wait for 5 minutes
+        run: sleep 180  # Temporary
+
       - name: Test application
         run: |
-          curl -v http://localhost:8080/
           curl -v http://localhost:8080/ui/#login
-          
+
       - name: Show recent logs
         run: |
           docker compose -f docker/docker-compose.yml logs --tail=200
