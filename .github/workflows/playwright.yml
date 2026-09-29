@@ -34,8 +34,6 @@ jobs:
       - name: D Logs
         run: |
           docker compose -f docker/docker-compose.yml logs -f
-      - name: Wait for 5 minutes
-        run: sleep 300  # Temporary
 
   run-tests:
     needs: build-rp
