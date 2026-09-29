@@ -53,6 +53,9 @@ jobs:
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
+      
+      - name: Wait for 2 minutes
+        run: sleep 120  # Temporary
 
       - name: Run Playwright smoke tests
         run: npm run test:smoke
