@@ -30,10 +30,11 @@ jobs:
       - name: Test application
         run: |
           curl -v http://localhost:8080/
-          curl -v http://localhost:8080/ui/
-      - name: D Logs
+          curl -v http://localhost:8080/ui/#login
+          
+      - name: Show recent logs
         run: |
-          docker compose -f docker/docker-compose.yml logs -f
+          docker compose -f docker/docker-compose.yml logs --tail=200
 
   run-tests:
     needs: build-rp
