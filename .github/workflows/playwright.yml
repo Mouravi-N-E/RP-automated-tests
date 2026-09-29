@@ -22,21 +22,17 @@ jobs:
       - name: Build RP
         run: docker compose -f docker/docker-compose.yml -p reportportal up -d --force-recreate
 
-      - name: Check containers
-        run: |
-          docker compose -f docker/docker-compose.yml ps
-          docker ps
+      # - name: Check containers
+      #   run: |
+      #     docker compose -f docker/docker-compose.yml ps
+      #     docker ps
 
-      - name: Wait for 5 minutes
-        run: sleep 180  # Temporary
+      # - name: Wait for 5 minutes
+      #   run: sleep 180  # Temporary
 
-      - name: Test application
-        run: |
-          curl -v http://localhost:8080/ui/#login
-
-      - name: Show recent logs
-        run: |
-          docker compose -f docker/docker-compose.yml logs --tail=200
+      # - name: Show recent logs
+      #   run: |
+      #     docker compose -f docker/docker-compose.yml logs --tail=200
 
   run-tests:
     needs: build-rp
@@ -55,6 +51,12 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+    - name: Test application
+      run: |
+          curl -v http://localhost:8080/ui/#login
+    - name: Test application 127
+      run: |
+          curl -v http://127.0.0.1:8080/ui/#login
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Chromium
