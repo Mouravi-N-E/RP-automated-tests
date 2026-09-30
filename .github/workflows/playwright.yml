@@ -55,10 +55,12 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests UI
+        id: ui-tests
         run: npm run test:ui  
 
-      # - name: Run Playwright tests API
-      #   run: npm run test:api
+      - name: Run Playwright tests API
+        if: ${{ !cancelled() && steps.ui-tests.outcome != 'skipped' }}
+        run: npm run test:api
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
