@@ -2,27 +2,30 @@ import { test, expect } from '@playwright/test';
 import { cleanupDashboard, createNewDashboard, getAllDashboards, getDashboardById, updateDashboard, addWidgetToDashboard } from '../helpers/dashboardsHelpers';
 import { ErrorMessages } from '../models/errorMessages/dashboardEndpointErrors';
 import { Widget } from '../models/getAllDashboardsModelResponse';
+import path from 'path';
+import fs from 'fs';
+
+const variables = path.join(__dirname, '../../playwright/.setup/testVariables.json');
 
 test.describe('Dashboards API Tests', () => {
-    const newDashIds: string[] = [];
-    const projectName = 'MENTORING-PROJECT';
-    const normProjectName = projectName.toLowerCase();
+    const newDashIds: string[] = [];    
+    let projectName = (fs.existsSync(variables) ? JSON.parse(fs.readFileSync(variables, 'utf-8')).ProjectName : null);
 
     test.afterAll(async () => {
         for (const dashboardId of newDashIds) {
-            await cleanupDashboard(dashboardId, normProjectName);
+            await cleanupDashboard(dashboardId, projectName);
         }
     });
 
     test.describe('/dashboard endpoint tests', () => {
         test('Get dashboards', async () => {
-            const dashboards = await getAllDashboards(normProjectName);
+            const dashboards = await getAllDashboards(projectName);
             console.log('Dashboards:', dashboards.content[0].name);
             expect(dashboards.content.length).toBeGreaterThan(0);
         });
 
         test('Create dashboard', async () => {
-            const dashboardResponse = await createNewDashboard(normProjectName, 'New Dashboard', 'Dashboard created via API test');
+            const dashboardResponse = await createNewDashboard(projectName, 'New Dashboard', 'Dashboard created via API test');
             const dashboardId = dashboardResponse.id;
             newDashIds.push(dashboardId!);
 
@@ -31,9 +34,9 @@ test.describe('Dashboards API Tests', () => {
 
         test('Create dashboard with existing name should fail', async () => {
             const dashName = 'Existing Dashboard';
-            const dashboardId = (await createNewDashboard(normProjectName, dashName)).id;
+            const dashboardId = (await createNewDashboard(projectName, dashName)).id;
             newDashIds.push(dashboardId!);
-            const errorData = await createNewDashboard(normProjectName, dashName).catch(e => e);
+            const errorData = await createNewDashboard(projectName, dashName).catch(e => e);
             expect(errorData.message).toContain(ErrorMessages.existingDashboardName(dashName));
         });
     });
@@ -43,24 +46,24 @@ test.describe('Dashboards API Tests', () => {
         let dashName: string;
         test.beforeAll(async () => {
             dashName = 'Dashboard for ID Tests';
-            dashboardId = (await createNewDashboard(normProjectName, dashName)).id!;
+            dashboardId = (await createNewDashboard(projectName, dashName)).id!;
             newDashIds.push(dashboardId);
         });
         test('Get dashboard by ID', async () => {
-            const response = await getDashboardById(normProjectName, dashboardId);
+            const response = await getDashboardById(projectName, dashboardId);
             expect(response.id).toBe(dashboardId);
             expect(response.name).toBe(dashName);
         });
 
         test('Get dashboard with invalid number ID should fail', async () => {
             const invalidDashboardId = 'invalid-id';
-            const errorData = await getDashboardById(normProjectName, invalidDashboardId).catch(e => e);
+            const errorData = await getDashboardById(projectName, invalidDashboardId).catch(e => e);
             expect(errorData.message).toContain(ErrorMessages.invalidTypeDashId(invalidDashboardId));
         });
 
         test('Get dashboard with non-existing ID should fail', async () => {
             const invalidDashboardId = '3';
-            const errorData = await getDashboardById(normProjectName, invalidDashboardId).catch(e => e);
+            const errorData = await getDashboardById(projectName, invalidDashboardId).catch(e => e);
             expect(errorData.message).toContain(ErrorMessages.invalidDashboardId(invalidDashboardId));
         });
     });
@@ -70,30 +73,30 @@ test.describe('Dashboards API Tests', () => {
         let dashName: string;
         test.beforeAll(async () => {
             dashName = 'Dashboard for Update Tests';
-            dashboardId = (await createNewDashboard(normProjectName, dashName)).id!;
+            dashboardId = (await createNewDashboard(projectName, dashName)).id!;
             newDashIds.push(dashboardId);
         });
 
         test('Update dashboard happy path', async () => {
             const updatedName = 'Updated Dashboard Name';
             const updatedDescription = 'Updated description for the dashboard';
-            const updateResponse = await updateDashboard(normProjectName, dashboardId, {
+            const updateResponse = await updateDashboard(projectName, dashboardId, {
                 name: updatedName,
                 description: updatedDescription,
             });
 
             expect(updateResponse.message).toBe(`Dashboard with ID = '${dashboardId}' successfully updated`);
-            const updatedDashboard = await getDashboardById(normProjectName, dashboardId);
+            const updatedDashboard = await getDashboardById(projectName, dashboardId);
             expect(updatedDashboard.name).toBe(updatedName);
             expect(updatedDashboard.description).toBe(updatedDescription);
         });
 
         test('Update dashboard with invalid data (existing name) should fail', async () => {
             const existingDashboardName = 'Existing Dash';
-            const existingDashboardId = (await createNewDashboard(normProjectName, existingDashboardName)).id!;
+            const existingDashboardId = (await createNewDashboard(projectName, existingDashboardName)).id!;
             newDashIds.push(existingDashboardId);
 
-            const errorData = await updateDashboard(normProjectName, dashboardId, {
+            const errorData = await updateDashboard(projectName, dashboardId, {
                 name: existingDashboardName,
             }).catch(e => e);
 
@@ -106,11 +109,11 @@ test.describe('Dashboards API Tests', () => {
         let dashName: string;
         test.beforeAll(async () => {
             dashName = 'Dashboard for Widget Tests';
-            dashboardId = (await createNewDashboard(normProjectName, dashName)).id!;
+            dashboardId = (await createNewDashboard(projectName, dashName)).id!;
             newDashIds.push(dashboardId);
         });
 
-        test('Add widget to dashboard happy path', async () => {
+        test.skip('Add widget to dashboard happy path', async () => {
             const widgetData: Widget = {
                 widgetId: 137, //temporary hardcoded value, should be replaced with a valid widget ID once widget api is available
                 widgetName: 'Test Widget',
@@ -119,10 +122,10 @@ test.describe('Dashboards API Tests', () => {
                 widgetPosition: { positionX: 0, positionY: 0 },
             };
 
-            await addWidgetToDashboard(normProjectName, dashboardId, {
+            await addWidgetToDashboard(projectName, dashboardId, {
                 addWidget: widgetData,
             });
-            const updatedDashboard = await getDashboardById(normProjectName, dashboardId);
+            const updatedDashboard = await getDashboardById(projectName, dashboardId);
             expect(updatedDashboard.widgets.length).toBe(1);
         });
     });

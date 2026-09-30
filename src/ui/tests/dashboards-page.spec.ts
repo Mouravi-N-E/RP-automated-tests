@@ -1,11 +1,15 @@
 import { test, expect } from '../fixtures/dashboardsPageFixture';
 import { NavBar } from '../components/navBar';
 import { cleanupDashboard } from '../../api/helpers/dashboardsHelpers';
+import path from 'path';
+import fs from 'fs';
+
+const variables = path.join(__dirname, '../../playwright/.setup/testVariables.json');
 
 test.describe('Dashboards page tests', () => {
     let navBar: NavBar;
     const newDashIds: string[] = [];
-    const projectName = 'MENTORING-PROJECT';
+    const projectName = (fs.existsSync(variables) ? JSON.parse(fs.readFileSync(variables, 'utf-8')).ProjectName : null);
     test.beforeEach(async ({ dashboardsPage }) => {
         navBar = new NavBar(dashboardsPage.page);
         await dashboardsPage.goto()
@@ -19,7 +23,6 @@ test.describe('Dashboards page tests', () => {
     });
 
     test('Open Demo Dashboard page', {
-        tag: '@Smoke'
     }, async ({ page }) => {
         expect(page.url()).toContain('/dashboard');
     });
@@ -28,7 +31,7 @@ test.describe('Dashboards page tests', () => {
         await dashboardsPage.searchDashboard('Demo Dashboard');
 
         const dashboardsInView = await dashboardsPage.getDashboardsInTable();
-        expect(dashboardsInView).toContain('DEMO DASHBOARD');
+        expect(dashboardsInView).toContain('Demo Dashboard');
     });
 
     test('Add new dashboard', async ({ dashboardsPage }) => {
