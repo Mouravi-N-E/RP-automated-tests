@@ -37,6 +37,11 @@ export default defineConfig({
     {
       name: 'global setup',
       testMatch: /global\.setup\.ts/,
+      teardown: 'global teardown',
+    },
+    {
+      name: 'global teardown',
+      testMatch: /global\.teardown\.ts/,
     },
     {
       name: 'ui teardown',
@@ -70,7 +75,7 @@ export default defineConfig({
       testMatch: 'src/ui/tests/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'src/playwright/.auth/user.json',
+        storageState: 'src/playwright/.setup/user.json',
         headless: process.env.HEADLESS === 'true',
         screenshot: 'only-on-failure',
         trace: 'on-first-retry',
