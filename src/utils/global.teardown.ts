@@ -1,5 +1,5 @@
 import { test as teardown } from '@playwright/test';
-import {  deleteProject } from './projectAPI';
+import { deleteProject } from './projectAPI';
 import path from 'path';
 import fs from 'fs';
 
@@ -10,7 +10,7 @@ teardown('cleanup auth state', async ({ request }) => {
     if (!projectId) {
         console.warn('No project ID found in environment variables. Skipping project deletion.');
         return;
-    }else {
+    } else {
         console.log(`Deleting project with ID: ${projectId}`);
     }
     await deleteProject(request, projectId);

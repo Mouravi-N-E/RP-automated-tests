@@ -18,6 +18,7 @@ setup('getApiToken', async ({ request }) => {
   console.log(`Created new project with ID: ${newProject}`);
 
   //process.env.ProjectId = newProject;
+  require('fs').mkdirSync(path.dirname(testVariables), { recursive: true });
   testVariables && require('fs').writeFileSync(testVariables, JSON.stringify({ User_TOKEN: jwtToken, Admin_TOKEN: adminToken, ProjectName: projectName, ProjectId: newProject }, null, 2));
 
   const assignUserResponse = await assignUserToProject(request, {

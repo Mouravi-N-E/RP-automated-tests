@@ -61,7 +61,7 @@ export async function deleteProject(request: APIRequestContext, projectId: strin
     }
 
     const deleteData = await deleteResponse.json();
-    if (deleteData.errors){
+    if (deleteData.errors) {
         throw new Error(`Failed to delete project. Errors: ${JSON.stringify(deleteData.errors[0].message)}`);
     }
 
