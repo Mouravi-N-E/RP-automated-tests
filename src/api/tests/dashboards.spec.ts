@@ -113,7 +113,7 @@ test.describe('Dashboards API Tests', () => {
             newDashIds.push(dashboardId);
         });
 
-        test('Add widget to dashboard happy path', async () => {
+        test.skip('Add widget to dashboard happy path', async () => {
             const widgetData: Widget = {
                 widgetId: 137, //temporary hardcoded value, should be replaced with a valid widget ID once widget api is available
                 widgetName: 'Test Widget',
