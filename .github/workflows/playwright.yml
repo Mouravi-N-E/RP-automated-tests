@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: RP_PROD
     env:
+      BASE_URL: ${{ vars.BASE_URL }}
       HEADLESS: true
       PASSWORD_ADMIN: ${{ secrets.PASSWORD_ADMIN }}
       LOGIN_ADMIN: ${{ secrets.LOGIN_ADMIN }}
