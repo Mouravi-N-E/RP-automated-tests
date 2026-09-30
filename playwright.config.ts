@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, type ReporterDescription } from '@playwright/test';
 
 
 /**
@@ -8,6 +8,23 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+const reporters: ReporterDescription[] = [['list'], ['html']];
+const reportPortalEndpoint = process.env.REPORTPORTAL_ENDPOINT;
+const reportPortalApiKey = process.env.REPORTPORTAL_API_KEY;
+const reportPortalProject = process.env.REPORTPORTAL_PROJECT;
+
+if (reportPortalEndpoint && reportPortalApiKey && reportPortalProject) {
+  reporters.push([
+    '@reportportal/agent-js-playwright',
+    {
+      endpoint: reportPortalEndpoint,
+      apiKey: reportPortalApiKey,
+      project: reportPortalProject,
+      launch: process.env.REPORTPORTAL_LAUNCH || 'RP automated tests',
+    },
+  ]);
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -23,7 +40,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['list'], ['html']],
+  reporter: reporters,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */

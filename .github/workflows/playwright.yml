@@ -11,12 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: RP_PROD
     env:
-      BASE_URL: http://localhost:8080
       HEADLESS: true
       PASSWORD_ADMIN: ${{ secrets.PASSWORD_ADMIN }}
       LOGIN_ADMIN: ${{ secrets.LOGIN_ADMIN }}
       PASSWORD_DEFAULT: ${{ secrets.PASSWORD_DEFAULT }}
       LOGIN_DEFAULT: ${{ secrets.LOGIN_DEFAULT }}
+      REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
+      REPORTPORTAL_ENDPOINT: ${{ vars.REPORTPORTAL_ENDPOINT }}
+      REPORTPORTAL_PROJECT: ${{ vars.REPORTPORTAL_PROJECT }}
     steps:
       - uses: actions/checkout@v4
 
