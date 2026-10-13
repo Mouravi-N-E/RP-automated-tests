@@ -29,7 +29,7 @@ export class LoginPage {
     await this.page.goto('/');
   }
 
-  async loginWithCredentials(options: { username?: string; password?: string; isAdmin?: boolean, iniTialize?: boolean } = {}) {
+  async loginWithCredentials(options: { username?: string; password?: string; isAdmin?: boolean, isiTialization?: boolean } = {}) {
     if (options.isAdmin) {
       options.username = process.env.LOGIN_ADMIN!;
       options.password = process.env.PASSWORD_ADMIN!;
@@ -39,7 +39,7 @@ export class LoginPage {
       options.password = process.env.PASSWORD_DEFAULT!;
     }
 
-    if (options.iniTialize) {
+    if (options.isiTialization) {
       for (let i = 0; i < 30; i++) {
         if (await this.loadingText.isVisible()) {
           await this.page.waitForTimeout(1000);
