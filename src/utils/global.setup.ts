@@ -11,13 +11,11 @@ setup('getApiToken', async ({ request }) => {
   const adminToken = await getJWTToken(request, { isAdmin: true });
   process.env.JWT_TOKEN = jwtToken;
 
-  // process.env.ProjectName = 'Test-Project-' + Date.now();
   const projectName = 'Test-Project-' + Date.now();
   console.log(`Generated project name: ${projectName}`);
   const newProject = await createProject(request, 'INTERNAL', projectName);
   console.log(`Created new project with ID: ${newProject}`);
 
-  //process.env.ProjectId = newProject;
   require('fs').mkdirSync(path.dirname(testVariables), { recursive: true });
   testVariables && require('fs').writeFileSync(testVariables, JSON.stringify({ User_TOKEN: jwtToken, Admin_TOKEN: adminToken, ProjectName: projectName, ProjectId: newProject }, null, 2));
 
