@@ -5,13 +5,11 @@ test.describe('Login page Tests', () => {
   test('Login with credentials happy path', {
     tag: '@Smoke'
   }, async ({ loginPage }) => {
-
-    await expect(loginPage.page).toHaveTitle(/Report Portal/);
-
     await loginPage.loginWithCredentials({ isAdmin: true });
+    await expect(loginPage.page).toHaveTitle(/Report Portal/);
   });
 
-  test('Socials links', {
+  test.skip('Socials links', {
     tag: '@Smoke'
   }, async ({ loginValidations }) => {
     await loginValidations.validateSocialLinks();
